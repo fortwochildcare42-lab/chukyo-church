@@ -413,9 +413,15 @@ function renderOffering(site){
   const introEl = q('[data-fill="offering-intro"]');
   if (introEl) introEl.textContent = site.offering.intro;
   const listEl = q('[data-fill="offering-accounts"]');
-  if (listEl) listEl.innerHTML = site.offering.accounts.map(a => `
-    <li><div class="bank">${escapeHTML(a.bank)}</div><div class="detail">${escapeHTML(a.detail)}</div></li>
-  `).join('');
+  if (listEl) {
+    if (site.offering.accounts && site.offering.accounts.length) {
+      listEl.innerHTML = site.offering.accounts.map(a => `
+        <li><div class="bank">${escapeHTML(a.bank)}</div><div class="detail">${escapeHTML(a.detail)}</div></li>
+      `).join('');
+    } else {
+      listEl.innerHTML = `<li class="offering-pending"><div class="detail">振込先については現在確認中です。準備が整い次第、こちらに掲載いたします。</div></li>`;
+    }
+  }
 }
 
 /* ============================================================ footer */
