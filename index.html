@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日本基督教団 中京教会 | 名古屋市東区白壁のキリスト教会</title>
+<meta name="description" content="1898年から祈りが受け継がれてきた、名古屋市東区白壁のプロテスタント教会。どなたでも自由に、お気軽にお越しください。">
+<meta property="og:title" content="日本基督教団 中京教会">
+<meta property="og:description" content="1898年から祈りが受け継がれてきた、名古屋市東区白壁のプロテスタント教会。">
+<meta property="og:image" content="assets/images/hero/sanctuary.jpg">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#7C4F2A">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;500;600;700&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============================================
+     HEADER
+============================================ -->
+<header class="header" id="site-header">
+  <a href="#top" class="brand" aria-label="中京教会ホーム">
+    <span class="cross" aria-hidden="true">
+      <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+        <line x1="13" y1="3" x2="13" y2="23"/>
+        <line x1="6" y1="10" x2="20" y2="10"/>
+      </svg>
+    </span>
+    <span>
+      <span class="name-jp">中京教会</span>
+      <span class="name-en">CHUKYO CHURCH</span>
+    </span>
+  </a>
+  <button class="burger" aria-label="メニューを開く" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- ============================================
+     NAV MENU (Overlay)
+============================================ -->
+<nav class="menu" aria-hidden="true">
+  <div class="menu-inner">
+    <ul class="menu-nav">
+      <li><a href="#welcome"     data-num="01">ようこそ <span class="en">Welcome</span></a></li>
+      <li><a href="#first-time"  data-num="02">初めての方へ <span class="en">First Visit</span></a></li>
+      <li><a href="#schedule"    data-num="03">礼拝・集会 <span class="en">Services</span></a></li>
+      <li><a href="#pastor"      data-num="04">牧師紹介 <span class="en">Minister</span></a></li>
+      <li><a href="#facilities"  data-num="05">施設紹介 <span class="en">Facilities</span></a></li>
+      <li><a href="#church-school" data-num="06">教会学校 <span class="en">Church School</span></a></li>
+      <li><a href="#history"     data-num="07">歴史 <span class="en">History</span></a></li>
+      <li><a href="#instagram"   data-num="08">お知らせ <span class="en">Instagram</span></a></li>
+      <li><a href="#access"      data-num="09">アクセス <span class="en">Access</span></a></li>
+      <li><a href="#contact"     data-num="10">お問い合わせ <span class="en">Contact</span></a></li>
+    </ul>
+    <aside class="menu-aside">
+      <div class="menu-verse">
+        あなたがたに平和があるように。<br>
+        父がわたしをお遣わしになったように、<br>
+        わたしもあなたがたを遣わす。
+      </div>
+      <div class="menu-verse-ref">JOHN 20:21</div>
+      <div class="menu-contact">
+        <strong>ADDRESS</strong>
+        〒461-0011<br>名古屋市東区白壁3-23-4
+        <br><br>
+        <strong>WORSHIP</strong>
+        毎週日曜日 10:30〜
+      </div>
+      <div class="menu-socials">
+        <a href="https://www.instagram.com/chukyo1898/?hl=ja" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=61576416771292" target="_blank" rel="noopener" aria-label="Facebook">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M13 22v-8h3l.5-4H13V7.5c0-1.2.3-2 2-2H17V2h-3c-3 0-4.5 1.7-4.5 4.7V10H7v4h2.5v8H13z"/></svg>
+        </a>
+        <a href="#contact" aria-label="お問い合わせ">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+        </a>
+      </div>
+    </aside>
+  </div>
+</nav>
+
+<!-- ============================================
+     NOTICE BOARD（教会からのお知らせ・臨時休会などの緊急情報）
+     ・お知らせがない時は自動で非表示になります
+     ・更新は admin/schedule.html の「② 教会からのお知らせ」から行います
+============================================ -->
+<section class="notice-board" data-fill="notice-board" hidden>
+  <div class="wrap">
+    <ul class="notice-list" data-fill="notice-list"></ul>
+  </div>
+</section>
+
+<!-- ============================================
+     HERO
+============================================ -->
+<section class="hero" id="top">
+  <div class="hero-bg">
+    <img src="assets/images/hero/sanctuary.jpg" alt="光が差し込む礼拝堂">
+  </div>
+  <div class="hero-content wrap">
+    <blockquote class="hero-verse reveal">
+      <span data-fill="hero-verse">あなたがたに平和があるように。</span>
+      <span class="hero-verse-ref" data-fill="hero-verse-ref">ヨハネによる福音書 20章21節</span>
+    </blockquote>
+    <h1 class="reveal" data-fill="hero-headline">どなたでも、自由に、
+お気軽にお越しください。</h1>
+    <p class="hero-sub reveal" data-fill="hero-sub">名古屋市東区白壁。1898年から祈りが受け継がれてきた場所で、あなたを待っています。</p>
+    <div class="hero-cta reveal">
+      <a href="#first-time" class="btn btn-primary">初めての方へ <span class="arrow">→</span></a>
+      <a href="#schedule" class="btn btn-ghost">今週の礼拝を見る</a>
+    </div>
+  </div>
+  <div class="hero-scroll">SCROLL</div>
+</section>
+
+<!-- ============================================
+     WELCOME
+============================================ -->
+<section class="welcome" id="welcome">
+  <div class="wrap welcome-grid">
+    <div class="welcome-text">
+      <div class="eyebrow reveal">Welcome</div>
+      <h2 class="reveal" data-fill="welcome-title">ようこそ、中京教会へ</h2>
+      <div class="reveal reveal-delay-1" data-fill="welcome-body"></div>
+      <ul class="welcome-bullets reveal reveal-delay-2" data-fill="welcome-bullets"></ul>
+    </div>
+    <div class="welcome-img reveal reveal-delay-1">
+      <img data-fill="welcome-img" alt="" loading="lazy">
+      <div class="verse-card">
+        <div class="label">今週の御言葉 / Weekly Verse</div>
+        <div class="text" data-fill="verse-text"></div>
+        <div class="ref" data-fill="verse-ref"></div>
+        <a href="#" class="share" data-share-verse>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+          <span>シェア</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     FIRST TIME
+============================================ -->
+<section class="first-time" id="first-time">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">First Visit</div>
+      <h2>初めての方へ</h2>
+      <p>初めての礼拝は誰でも緊張するもの。当日の流れと、よくある質問にお答えします。</p>
+    </div>
+
+    <div class="flow" data-fill="flow"></div>
+
+    <div class="section-head reveal" style="margin-top:80px;">
+      <div class="eyebrow">FAQ</div>
+      <h2>よくあるご質問</h2>
+      <p>洗礼、献金、服装、お子様連れ ─ 気になることを気軽にどうぞ。</p>
+    </div>
+    <div class="faq-list" data-fill="faq"></div>
+  </div>
+</section>
+
+<!-- ============================================
+     SCHEDULE
+============================================ -->
+<section class="schedule" id="schedule">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Services</div>
+      <h2>礼拝・集会</h2>
+      <p>毎週日曜日の礼拝と、水曜日の祈祷会。どなたでも自由にご参加いただけます。</p>
+    </div>
+
+    <div class="schedule-grid">
+      <aside class="regular-schedule reveal">
+        <h3>週の集会</h3>
+        <p>Regular Weekly Services</p>
+        <ul class="regular-list" data-fill="regular-list"></ul>
+      </aside>
+      <div class="upcoming">
+        <div class="upcoming-month reveal" data-fill="upcoming-month"></div>
+        <ul class="upcoming-list" data-fill="upcoming-list"></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     PASTOR
+============================================ -->
+<section class="pastor" id="pastor">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Minister</div>
+      <h2>牧師紹介</h2>
+    </div>
+    <div class="pastor-grid">
+      <div class="pastor-img reveal">
+        <img data-fill="pastor-img" alt="" loading="lazy">
+      </div>
+      <div class="pastor-body reveal reveal-delay-1">
+        <h3 data-fill="pastor-name"></h3>
+        <div class="kana" data-fill="pastor-kana"></div>
+        <p data-fill="pastor-profile"></p>
+        <div class="pastor-message" data-fill="pastor-message"></div>
+        <div class="pastor-actions">
+          <a href="#contact" class="btn-outline" data-jump-contact="牧師への匿名質問">牧師に匿名で質問する</a>
+          <a href="#contact" class="btn-outline" data-jump-contact="祈りのリクエスト">祈りのリクエストを送る</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     FACILITIES
+============================================ -->
+<section class="facilities" id="facilities">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Facilities</div>
+      <h2>施設紹介</h2>
+      <p>2010年に献堂された5代目会堂。2024年秋にはオランダ製のパイプオルガンが仲間入りしました。</p>
+    </div>
+    <div class="facility-grid" data-fill="facilities"></div>
+  </div>
+</section>
+
+<!-- ============================================
+     CHURCH SCHOOL
+============================================ -->
+<section class="church-school" id="church-school">
+  <div class="wrap">
+    <div class="cs-grid">
+      <div class="cs-images reveal" data-fill="cs-images"></div>
+      <div class="cs-body reveal reveal-delay-1">
+        <div class="eyebrow">Church School</div>
+        <h2>教会学校</h2>
+        <p>教会学校は、幼児から高校生までが通っています。2024年度は主に新約聖書（マタイによる福音書）から学び、礼拝後にわかりやすく振り返る時間を持っています。</p>
+        <p>クリスマス・イースター・ペンテコステなどの礼拝に向けて、ミュージックベルの練習も。保護者の方も一緒にご参加いただけます。</p>
+
+        <div class="cs-highlights">
+          <div class="cs-highlight"><div class="time">9:00〜</div><div><strong>礼拝</strong><span>毎週日曜日、大人と一緒に短い礼拝を守ります</span></div></div>
+          <div class="cs-highlight"><div class="time">礼拝後</div><div><strong>分級</strong><span>その日の聖書のみ言葉について、わかりやすく学びます</span></div></div>
+          <div class="cs-highlight"><div class="time">年数回</div><div><strong>行事</strong><span>夏期学校（水族館遠足）、花の日、名城公園遠足 など</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     HISTORY
+============================================ -->
+<section class="history" id="history">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">History</div>
+      <h2>教会の歴史</h2>
+      <p>1898年、名古屋英和学校の宣教師と生徒たちの祈祷会から、中京教会の歩みは始まりました。</p>
+    </div>
+    <div class="timeline" data-fill="history"></div>
+  </div>
+</section>
+
+<!-- ============================================
+     INSTAGRAM
+============================================ -->
+<section class="instagram" id="instagram">
+  <div class="wrap">
+    <div class="ig-head reveal">
+      <div>
+        <div class="eyebrow">Instagram</div>
+        <h2>教会からのお知らせ</h2>
+      </div>
+      <a href="https://www.instagram.com/chukyo1898/?hl=ja" target="_blank" rel="noopener" class="ig-follow">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        フォローする
+      </a>
+    </div>
+    <div class="ig-grid" data-fill="instagram">
+      <p style="grid-column:1/-1;text-align:center;color:var(--muted);padding:40px;">読み込み中…</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     ACCESS
+============================================ -->
+<section class="access" id="access">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Access</div>
+      <h2>アクセス</h2>
+    </div>
+    <div class="access-grid">
+      <div class="access-info reveal">
+        <h3>交通アクセス</h3>
+        <div class="addr" data-fill="access-addr"></div>
+        <ul class="access-routes" data-fill="access-routes"></ul>
+        <a href="https://www.google.com/maps/search/?api=1&query=名古屋市東区白壁3-23-4" target="_blank" rel="noopener" class="btn-outline" style="display:inline-flex;">
+          Googleマップで開く <span class="arrow">→</span>
+        </a>
+      </div>
+      <div class="access-map reveal reveal-delay-1">
+        <iframe data-fill="access-map" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" title="中京教会 Googleマップ"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     CONTACT + OFFERING
+============================================ -->
+<section class="contact-offering" id="contact">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Contact</div>
+      <h2>お問い合わせ</h2>
+      <p>ご質問、牧師への匿名質問、祈りのリクエストなど、ご自由にどうぞ。</p>
+    </div>
+
+    <div class="co-grid">
+      <div class="co-card reveal">
+        <div class="contact-tabs">
+          <button class="contact-tab is-active" data-kind="お問い合わせ">お問い合わせ</button>
+          <button class="contact-tab" data-kind="牧師への匿名質問">匿名質問</button>
+          <button class="contact-tab" data-kind="祈りのリクエスト">祈り</button>
+        </div>
+        <form data-contact-form>
+          <input type="hidden" name="kind" value="お問い合わせ">
+          <div class="form-field">
+            <label for="f-name">お名前（任意）</label>
+            <input type="text" id="f-name" name="name" placeholder="山田 花子">
+          </div>
+          <div class="form-field">
+            <label for="f-email">メールアドレス（任意）</label>
+            <input type="email" id="f-email" name="email" placeholder="you@example.com">
+          </div>
+          <div class="form-field">
+            <label for="f-msg">メッセージ</label>
+            <textarea id="f-msg" name="message" required placeholder="ご質問・ご要望などご自由にお書きください"></textarea>
+          </div>
+          <label class="form-checkbox">
+            <input type="checkbox" required>
+            <span>ご入力内容の取扱いに同意します</span>
+          </label>
+          <button type="submit" class="form-submit">送信する</button>
+          <p class="form-status" role="status"></p>
+        </form>
+      </div>
+
+      <div class="co-card reveal reveal-delay-1" id="offering">
+        <div class="eyebrow">Offering</div>
+        <h3>献金のご案内</h3>
+        <p data-fill="offering-intro"></p>
+        <ul class="offering-list" data-fill="offering-accounts"></ul>
+        <p style="margin-top:24px;font-size:12px;color:var(--muted);">※献金は自由意志によるものです。教会にお越しの際に直接お渡しいただくこともできます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     FOOTER
+============================================ -->
+<footer class="footer">
+  <div class="footer-brand">日本基督教団 中京教会</div>
+  <div class="footer-en">CHUKYO CHURCH · SINCE 1898</div>
+  <div class="footer-verse" data-fill="footer-verse"></div>
+  <nav class="footer-links">
+    <a href="#welcome">ようこそ</a>
+    <a href="#first-time">初めての方へ</a>
+    <a href="#schedule">礼拝・集会</a>
+    <a href="#pastor">牧師紹介</a>
+    <a href="#facilities">施設紹介</a>
+    <a href="#history">歴史</a>
+    <a href="#access">アクセス</a>
+    <a href="#contact">お問い合わせ</a>
+  </nav>
+  <div class="footer-copy" data-fill="footer-copy"></div>
+</footer>
+
+<!-- Back to top -->
+<button class="to-top" aria-label="ページトップへ戻る">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<!-- Scripts -->
+<script src="js/content.js"></script>
+<script src="js/script.js"></script>
+<script>
+  // Contact tab jump helper（牧師紹介の「匿名質問」「祈りのリクエスト」ボタンから
+  // お問い合わせフォームまでスクロールし、該当タブを自動選択する）
+  document.addEventListener('click', (e) => {
+    const t = e.target.closest('[data-jump-contact]');
+    if (!t) return;
+    const kind = t.dataset.jumpContact;
+    setTimeout(() => {
+      const tabs = document.querySelectorAll('.contact-tab');
+      tabs.forEach(x => {
+        x.classList.toggle('is-active', x.dataset.kind === kind);
+      });
+      const hidden = document.querySelector('input[name="kind"]');
+      if (hidden) hidden.value = kind;
+      const activeTab = document.querySelector('.contact-tab.is-active');
+      activeTab?.dispatchEvent(new Event('click'));
+    }, 400);
+  });
+</script>
+</body>
+</html>

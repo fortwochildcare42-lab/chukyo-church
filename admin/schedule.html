@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>予定・お知らせの更新｜中京教会（管理用）</title>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF5EA; --paper-deep:#F1E8D6; --ink:#2E2A22; --ink-soft:#6B6252;
+    --wood:#A9713F; --wood-deep:#7C4F2A; --sky-deep:#4F7590;
+    --line: rgba(46,42,34,0.16); --shadow: 0 14px 30px rgba(70,54,26,0.10);
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'Zen Kaku Gothic New', sans-serif; line-height:1.7;
+    padding: 30px 16px 100px;
+  }
+  h1{ font-family:'Shippori Mincho B1', serif; font-size:1.4rem; margin: 0 0 4px; }
+  .sub{ color:var(--ink-soft); font-size:0.85rem; margin: 0 0 24px; }
+  .wrap{ max-width: 640px; margin: 0 auto; }
+  .card{ background:#fff; border-radius:14px; padding:20px; box-shadow:var(--shadow); margin-bottom:18px; }
+  label{ display:block; font-size:0.8rem; color:var(--ink-soft); margin-bottom:6px; }
+  input[type=text], input[type=password], input[type=date], textarea, select{
+    width:100%; font-family:inherit; font-size:1rem; padding:10px 12px;
+    border-radius:8px; border:1px solid var(--line); background:#fff; color:var(--ink);
+    margin-bottom:14px; resize:vertical;
+  }
+  textarea{ min-height:90px; }
+  .day-card{ border:1px solid var(--line); border-radius:12px; padding:16px; margin-bottom:14px; background:var(--paper-deep); }
+  .btn{
+    display:inline-block; border:none; border-radius:999px; padding:11px 22px; font-size:0.9rem;
+    cursor:pointer; font-family:inherit; font-weight:500;
+  }
+  .btn-primary{ background:var(--wood-deep); color:var(--paper); }
+  .btn-primary:hover{ background:var(--wood); }
+  .btn-ghost{ background:transparent; border:1px solid var(--line); color:var(--ink-soft); }
+  .btn-ghost:hover{ border-color:var(--wood); color:var(--wood-deep); }
+  .btn-danger{ background:transparent; color:#b04a3a; border:1px solid rgba(176,74,58,0.3); font-size:0.8rem; padding:6px 14px; }
+  .btn-danger:hover{ background:rgba(176,74,58,0.06); }
+  .actions{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  .status{ font-size:0.88rem; margin-top:10px; min-height:1.4em; color:var(--sky-deep); }
+  .status.error{ color:#b04a3a; }
+  .day-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; gap:10px; }
+  .day-head .dow{ font-size:0.8rem; color:var(--wood-deep); font-weight:600; }
+  .day-head select{ width:auto; flex:1; margin-bottom:0; font-size:0.85rem; padding:8px 10px; }
+  #lockScreen{ max-width:360px; margin: 20vh auto 0; text-align:center; }
+  #app{ display:none; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div id="lockScreen" class="card">
+    <h1>予定・お知らせの更新</h1>
+    <p class="sub">中京教会サイト管理用ページ</p>
+    <label for="pw">パスワード</label>
+    <input type="password" id="pw" autocomplete="current-password">
+    <button class="btn btn-primary" id="unlockBtn" style="width:100%;">開く</button>
+    <p class="status" id="lockStatus"></p>
+  </div>
+
+  <div id="app">
+    <h1>① 今月の予定を更新</h1>
+    <p class="sub">日付はカレンダーから選ぶだけです。曜日は自動で判定されるので入力の必要はありません。保存すると数分でサイトに反映されます。</p>
+
+    <div id="daysContainer"></div>
+
+    <button class="btn btn-ghost" id="addDayBtn" style="width:100%; margin-bottom:20px;">＋ 日を追加する</button>
+
+    <div class="card actions">
+      <button class="btn btn-primary" id="saveBtn">保存する</button>
+      <button class="btn btn-ghost" id="reloadBtn">読み込み直す</button>
+    </div>
+    <p class="status" id="saveStatus"></p>
+
+    <hr style="border:none; border-top:1px solid var(--line); margin: 32px 0;">
+
+    <h1>② 教会からのお知らせ（臨時情報）</h1>
+    <p class="sub">台風による休会など、緊急・臨時のお知らせをここから発信できます。何も無い時は空のままでOKです（サイトには何も表示されません）。</p>
+
+    <div id="noticesContainer"></div>
+
+    <button class="btn btn-ghost" id="addNoticeBtn" style="width:100%; margin-bottom:20px;">＋ お知らせを追加する</button>
+
+    <div class="card actions">
+      <button class="btn btn-primary" id="saveNoticesBtn">お知らせを保存する</button>
+      <button class="btn btn-ghost" id="reloadNoticesBtn">読み込み直す</button>
+    </div>
+    <p class="status" id="noticeStatus"></p>
+  </div>
+
+</div>
+
+<template id="noticeTemplate">
+  <div class="day-card notice-card">
+    <div class="day-head">
+      <select class="levelSelect">
+        <option value="urgent">⚠ 緊急（赤）－ 休会・警報など</option>
+        <option value="info">ℹ お知らせ（青）－ 通常のご案内</option>
+      </select>
+      <button type="button" class="btn-danger removeNoticeBtn">この項目を削除</button>
+    </div>
+    <label>タイトル</label>
+    <input type="text" class="noticeTitleInput" placeholder="台風接近に伴う臨時休会のお知らせ">
+    <label>本文（任意）</label>
+    <textarea class="noticeBodyInput" placeholder="○月○日（○）の教会学校・主日礼拝はお休みとなります。"></textarea>
+  </div>
+</template>
+
+<template id="dayTemplate">
+  <div class="day-card">
+    <div class="day-head">
+      <span class="dow"></span>
+      <button type="button" class="btn-danger removeDayBtn">この日を削除</button>
+    </div>
+    <label>日付</label>
+    <input type="date" class="dateInput">
+    <label>見出し（例：聖霊降臨節第7主日／水曜）</label>
+    <input type="text" class="labelInput" placeholder="聖霊降臨節第7主日">
+    <label>予定の内容（1行に1つずつ）</label>
+    <textarea class="itemsInput" placeholder="教会学校 9:00
+求道者会 9:40
+主日礼拝 10:30〜12:00（聖餐式）"></textarea>
+  </div>
+</template>
+
+<script>
+const API = '/api/schedule';
+const NOTICE_API = '/api/announcements';
+const DOWS = ['日','月','火','水','木','金','土'];
+let sessionPassword = '';
+
+const lockScreen = document.getElementById('lockScreen');
+const app = document.getElementById('app');
+const pwInput = document.getElementById('pw');
+const lockStatus = document.getElementById('lockStatus');
+const daysContainer = document.getElementById('daysContainer');
+const dayTemplate = document.getElementById('dayTemplate');
+const saveStatus = document.getElementById('saveStatus');
+
+const noticesContainer = document.getElementById('noticesContainer');
+const noticeTemplate = document.getElementById('noticeTemplate');
+const noticeStatus = document.getElementById('noticeStatus');
+
+document.getElementById('unlockBtn').addEventListener('click', unlock);
+pwInput.addEventListener('keydown', e => { if (e.key === 'Enter') unlock(); });
+document.getElementById('addDayBtn').addEventListener('click', () => addDayCard());
+document.getElementById('saveBtn').addEventListener('click', save);
+document.getElementById('reloadBtn').addEventListener('click', () => loadSchedule());
+
+document.getElementById('addNoticeBtn').addEventListener('click', () => addNoticeCard());
+document.getElementById('saveNoticesBtn').addEventListener('click', saveNotices);
+document.getElementById('reloadNoticesBtn').addEventListener('click', () => loadNotices());
+
+async function unlock(){
+  const pw = pwInput.value.trim();
+  if (!pw){
+    lockStatus.textContent = 'パスワードを入力してください';
+    lockStatus.classList.add('error');
+    return;
+  }
+  sessionPassword = pw;
+  lockScreen.style.display = 'none';
+  app.style.display = 'block';
+  await loadSchedule();
+  await loadNotices();
+}
+
+async function loadSchedule(){
+  saveStatus.textContent = '読み込み中…';
+  saveStatus.classList.remove('error');
+  try{
+    const res = await fetch(API, { cache: 'no-store' });
+    const data = await res.json();
+    daysContainer.innerHTML = '';
+    (data.items || []).forEach(item => addDayCard(item));
+    if (!(data.items || []).length){
+      saveStatus.textContent = 'まだ予定が保存されていません。「＋ 日を追加する」から始めてください。';
+    } else {
+      saveStatus.textContent = '読み込みました。';
+    }
+  }catch(err){
+    console.error(err);
+    saveStatus.textContent = '読み込みに失敗しました。通信環境をご確認ください。';
+    saveStatus.classList.add('error');
+  }
+}
+
+function addDayCard(item){
+  const node = dayTemplate.content.cloneNode(true);
+  const card = node.querySelector('.day-card');
+  const dateInput = node.querySelector('.dateInput');
+  const labelInput = node.querySelector('.labelInput');
+  const itemsInput = node.querySelector('.itemsInput');
+  const dowEl = node.querySelector('.dow');
+  const removeBtn = node.querySelector('.removeDayBtn');
+
+  if (item){
+    dateInput.value = item.date || '';
+    labelInput.value = item.label || '';
+    itemsInput.value = (item.items || []).join('\n');
+  }
+  updateDow(dateInput, dowEl);
+  dateInput.addEventListener('change', () => updateDow(dateInput, dowEl));
+  removeBtn.addEventListener('click', () => card.remove());
+  daysContainer.appendChild(node);
+}
+
+function updateDow(dateInput, dowEl){
+  if (!dateInput.value){ dowEl.textContent = ''; return; }
+  const d = new Date(dateInput.value + 'T00:00:00');
+  dowEl.textContent = `${d.getMonth() + 1}月${d.getDate()}日（${DOWS[d.getDay()]}）`;
+}
+
+async function save(){
+  const items = Array.from(daysContainer.querySelectorAll('.day-card')).map(card => ({
+    date: card.querySelector('.dateInput').value,
+    label: card.querySelector('.labelInput').value.trim(),
+    items: card.querySelector('.itemsInput').value.split('\n').map(s => s.trim()).filter(Boolean)
+  })).filter(it => it.date);
+
+  const payload = { password: sessionPassword, items };
+
+  saveStatus.textContent = '保存中…';
+  saveStatus.classList.remove('error');
+
+  try{
+    const res = await fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (!res.ok || !data.ok){
+      throw new Error(data.error || '保存に失敗しました');
+    }
+    saveStatus.textContent = '✓ 保存しました。数分でサイトに反映されます。';
+  }catch(err){
+    console.error(err);
+    saveStatus.textContent = err.message || '保存に失敗しました。パスワードをご確認ください。';
+    saveStatus.classList.add('error');
+  }
+}
+
+/* ============================================================ お知らせボード */
+async function loadNotices(){
+  noticeStatus.textContent = '読み込み中…';
+  noticeStatus.classList.remove('error');
+  try{
+    const res = await fetch(NOTICE_API, { cache: 'no-store' });
+    const data = await res.json();
+    noticesContainer.innerHTML = '';
+    (data.items || []).forEach(item => addNoticeCard(item));
+    if (!(data.items || []).length){
+      noticeStatus.textContent = '現在、お知らせはありません。';
+    } else {
+      noticeStatus.textContent = '読み込みました。';
+    }
+  }catch(err){
+    console.error(err);
+    noticeStatus.textContent = '読み込みに失敗しました。通信環境をご確認ください。';
+    noticeStatus.classList.add('error');
+  }
+}
+
+function addNoticeCard(item){
+  const node = noticeTemplate.content.cloneNode(true);
+  const card = node.querySelector('.notice-card');
+  const levelSelect = node.querySelector('.levelSelect');
+  const titleInput = node.querySelector('.noticeTitleInput');
+  const bodyInput = node.querySelector('.noticeBodyInput');
+  const removeBtn = node.querySelector('.removeNoticeBtn');
+
+  if (item){
+    levelSelect.value = item.level === 'info' ? 'info' : 'urgent';
+    titleInput.value = item.title || '';
+    bodyInput.value = item.body || '';
+    if (item.id) card.dataset.id = item.id;
+  }
+  removeBtn.addEventListener('click', () => card.remove());
+  noticesContainer.appendChild(node);
+}
+
+async function saveNotices(){
+  const items = Array.from(noticesContainer.querySelectorAll('.notice-card')).map(card => ({
+    id: card.dataset.id || '',
+    level: card.querySelector('.levelSelect').value,
+    title: card.querySelector('.noticeTitleInput').value.trim(),
+    body: card.querySelector('.noticeBodyInput').value.trim()
+  })).filter(it => it.title || it.body);
+
+  const payload = { password: sessionPassword, items };
+
+  noticeStatus.textContent = '保存中…';
+  noticeStatus.classList.remove('error');
+
+  try{
+    const res = await fetch(NOTICE_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (!res.ok || !data.ok){
+      throw new Error(data.error || '保存に失敗しました');
+    }
+    noticeStatus.textContent = '✓ 保存しました。数分でサイトに反映されます。';
+  }catch(err){
+    console.error(err);
+    noticeStatus.textContent = err.message || '保存に失敗しました。パスワードをご確認ください。';
+    noticeStatus.classList.add('error');
+  }
+}
+</script>
+</body>
+</html>
