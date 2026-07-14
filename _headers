@@ -1,0 +1,37 @@
+# ==========================================================
+# Cloudflare Pages 用キャッシュ設定
+# ------------------------------------------------------------
+# このファイルはリポジトリの「ルート」に置いてください
+# （index.html や css/ js/ フォルダと同じ階層）。
+# 特別な設定作業は不要で、pushすると自動的に反映されます。
+#
+# 目的：
+#   js/content.js（予定・お知らせ・牧師紹介など、頻繁に更新する本文データ）や
+#   css/style.css・js/script.js を更新しても、スマホやCDN側の古いキャッシュが
+#   そのまま表示され続けてしまう問題を防ぐため。
+#
+# Cache-Control: no-cache, must-revalidate の意味：
+#   「キャッシュするな」ではなく「毎回サーバーに確認してから使う」という指定です。
+#   ファイルが変わっていなければ304応答で高速に返り、変わっていれば
+#   最新の内容がすぐ反映されます。ハード再読み込み（Cmd/Ctrl+Shift+R）を
+#   お願いしなくても、ページ再読み込みだけで最新版が表示されます。
+# ==========================================================
+
+/js/content.js
+  Cache-Control: no-cache, must-revalidate
+
+/js/script.js
+  Cache-Control: no-cache, must-revalidate
+
+/css/style.css
+  Cache-Control: no-cache, must-revalidate
+
+/index.html
+  Cache-Control: no-cache, must-revalidate
+
+/
+  Cache-Control: no-cache, must-revalidate
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
