@@ -43,6 +43,16 @@ document.addEventListener('DOMContentLoaded', () => {
 /* ============================================================ utils */
 function q(sel){ return document.querySelector(sel); }
 function qa(sel){ return document.querySelectorAll(sel); }
+
+// モバイル回線が遅い/不安定な時にfetchが長時間固まらないよう、
+// タイムアウト付きでfetchするための共通ヘルパー（既定4秒）。
+// タイムアウト・通信エラーの場合は呼び出し元のtry/catchでバックアップ
+// データ表示に切り替わる（従来の挙動と同じ）。
+function fetchWithTimeout(url, options = {}, timeoutMs = 4000){
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  return fetch(url, { ...options, signal: controller.signal }).finally(() => clearTimeout(timer));
+}
 function escapeHTML(s){
   if (s === undefined || s === null) return '';
   return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -68,19 +78,41 @@ function initMenu(){
   if (!burger || !menu) return;
   const links = qa('.menu-nav a');
 
+  // メニュー表示中は背景を固定する。
+  // 単純な overflow:hidden だとiOS Safariで背景がゴムのように
+  // 伸び縮みして裏が動いてしまうことがあるため、スクロール位置を
+  // 覚えておいて body を position:fixed にする方式にしている。
+  let scrollLockY = 0;
+  const lockBodyScroll = () => {
+    scrollLockY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollLockY}px`;
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+    document.body.style.width = '100%';
+  };
+  const unlockBodyScroll = () => {
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    document.body.style.width = '';
+    window.scrollTo(0, scrollLockY);
+  };
+
   const close = () => {
     burger.classList.remove('is-open');
     menu.classList.remove('is-open');
     burger.setAttribute('aria-expanded', 'false');
     menu.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
+    unlockBodyScroll();
   };
   const open = () => {
     burger.classList.add('is-open');
     menu.classList.add('is-open');
     burger.setAttribute('aria-expanded', 'true');
     menu.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
+    lockBodyScroll();
   };
 
   burger.addEventListener('click', () => {
@@ -134,7 +166,7 @@ async function renderNoticeBoard(site){
 
   // ① 管理画面(/api/announcements)経由のデータを優先
   try{
-    const res = await fetch('/api/announcements', { cache: 'no-store' });
+    const res = await fetchWithTimeout('/api/announcements', { cache: 'no-store' });
     if (res.ok){
       const data = await res.json();
       if (data && Array.isArray(data.items) && data.items.length) items = data.items;
@@ -275,7 +307,7 @@ async function renderUpcomingSchedule(site){
 
   // ① 管理画面(/api/schedule)経由のデータを優先
   try{
-    const res = await fetch('/api/schedule', { cache: 'no-store' });
+    const res = await fetchWithTimeout('/api/schedule', { cache: 'no-store' });
     if (res.ok){
       const data = await res.json();
       if (data && Array.isArray(data.items) && data.items.length) items = data.items;
@@ -488,7 +520,7 @@ async function renderInstagram(site){
     try{
       const fields = 'id,caption,media_type,media_url,permalink,thumbnail_url';
       const url = `https://graph.instagram.com/${cfg.userId}/media?fields=${fields}&access_token=${cfg.accessToken}&limit=${cfg.postCount || 6}`;
-      const res = await fetch(url);
+      const res = await fetchWithTimeout(url, {}, 5000);
       if (!res.ok) throw new Error('Instagram API error');
       const data = await res.json();
       grid.innerHTML = data.data.map(post => `
