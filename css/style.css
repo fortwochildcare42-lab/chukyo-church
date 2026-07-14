@@ -393,3 +393,81 @@ a:focus-visible, button:focus-visible, summary:focus-visible{ outline:2px solid 
   .upcoming-list li{ grid-template-columns:52px 1fr; gap:12px; padding:14px 16px; }
   .flow-card, .faq-item summary, .faq-body{ padding-left:18px; padding-right:18px; }
 }
+
+/* ==========================================================
+   📱 モバイル改善（今回追加分）
+   ここから下は、既存のセレクタを上書きする形で追加しています。
+   （元のCSSは一切削除していません）
+   ========================================================== */
+
+/* ---- 横スクロール事故防止 ---- */
+body{ overflow-x: hidden; }
+
+/* ---- iPhoneのノッチ・ホームバー（セーフエリア）対応 ---- */
+.header{
+  padding-left: max(28px, env(safe-area-inset-left));
+  padding-right: max(28px, env(safe-area-inset-right));
+}
+.menu-inner{
+  padding-left: max(28px, env(safe-area-inset-left));
+  padding-right: max(28px, env(safe-area-inset-right));
+  padding-bottom: max(60px, env(safe-area-inset-bottom));
+}
+.to-top{
+  right: max(22px, env(safe-area-inset-right));
+  bottom: max(22px, env(safe-area-inset-bottom));
+}
+.notice-board{
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* ---- タップ操作の質感改善 ----
+   ・タップ時の水色ハイライトを消す
+   ・300msのタップ遅延・ダブルタップズームを防ぐ
+   ・リンクやボタンのタップ判定を最低44pxに拡大 ---- */
+a, button, .burger, .faq-item summary{
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.burger{ width:44px; height:44px; }
+.organ-play{ width:44px; height:44px; }
+.menu-socials a{ width:40px; height:40px; }
+
+/* ---- タッチデバイスで:hoverが「押しっぱなし」状態で
+   固まって見える現象を防ぐ（拡大したまま・色が変わったまま等） ---- */
+@media (hover: none), (pointer: coarse){
+  .btn:hover{ transform:none; }
+  .btn:hover .arrow{ transform:none; }
+  .facility-card:hover img{ transform:none; }
+  .ig-grid a:hover img{ transform:none; }
+  .organ-play:hover{ transform:none; }
+  .to-top:hover{ background: var(--wood-deep); }
+  .form-submit:hover{ transform:none; }
+}
+
+/* ---- スマホでの余白・文字サイズの微調整 ---- */
+@media (max-width:760px){
+  .hero-content{ padding: calc(var(--header-h) + 24px) 20px 80px; }
+  .hero-cta{ gap:10px; }
+  .hero-cta .btn{ width:100%; justify-content:center; }
+  .verse-card{ padding:18px 20px; }
+  .co-card{ padding:22px 20px; }
+  .pastor-actions{ flex-direction:column; }
+  .pastor-actions .btn-outline{ justify-content:center; }
+}
+
+@media (max-width:480px){
+  .menu-inner{ padding-top: calc(var(--header-h) + 24px); padding-bottom:40px; gap:32px; }
+  .menu-nav a{ padding:15px 4px; }
+  .access-routes li{ grid-template-columns:20px 1fr; row-gap:2px; }
+  .access-routes .walk{ grid-column:2; white-space:normal; }
+  .co-grid{ gap:28px; }
+  .form-field textarea{ min-height:100px; }
+}
+
+/* ---- フォームのinput/textareaが16px未満だとiOSで
+   フォーカス時に自動ズームしてしまうため念のため明示 ---- */
+.form-field input, .form-field textarea{
+  font-size: max(1rem, 16px);
+}
