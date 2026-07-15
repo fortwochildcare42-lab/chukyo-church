@@ -34,7 +34,7 @@ body{
   margin:0; background: var(--paper); color: var(--ink);
   font-family: var(--font-body); font-weight:400; line-height:1.9;
   -webkit-font-smoothing: antialiased;
-  word-break: keep-all; overflow-wrap: break-word;
+  word-break:  normal; overflow-wrap: break-word;
 }
 h1,h2,h3,h4,blockquote{ font-family: var(--font-display); color: var(--ink); margin:0 0 0.6em; font-weight:600; letter-spacing:0.02em; }
 h1{ font-size: clamp(1.9rem, 1.3rem + 2.4vw, 3.1rem); line-height:1.45; }
