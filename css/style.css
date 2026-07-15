@@ -34,8 +34,15 @@ body{
   margin:0; background: var(--paper); color: var(--ink);
   font-family: var(--font-body); font-weight:400; line-height:1.9;
   -webkit-font-smoothing: antialiased;
-  word-break:  normal; overflow-wrap: break-word;
+  /* word-break:keep-all はSafari(iPhone)で日本語の長文を1つの
+     "単語"とみなし、改行できず右にはみ出す原因になることがあるため
+     normalに変更。overflow-wrap側で欧文・数字の連続はできるだけ
+     まとめつつ、必要な時は強制的に折り返す。 */
+  word-break: normal; overflow-wrap: break-word;
 }
+/* 段落は特に長くなりやすいので、万一はみ出しそうな文字列があっても
+   必ず折り返されるよう、より強いanywhereを明示しておく（保険） */
+p{ overflow-wrap: anywhere; }
 h1,h2,h3,h4,blockquote{ font-family: var(--font-display); color: var(--ink); margin:0 0 0.6em; font-weight:600; letter-spacing:0.02em; }
 h1{ font-size: clamp(1.9rem, 1.3rem + 2.4vw, 3.1rem); line-height:1.45; }
 h2{ font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); }
@@ -124,7 +131,9 @@ img{ max-width:100%; }
   content:""; position:absolute; inset:0;
   background: linear-gradient(180deg, rgba(28,25,19,0.68) 0%, rgba(28,25,19,0.5) 30%, rgba(28,25,19,0.58) 60%, rgba(28,25,19,0.9) 100%);
 }
-.hero-content{ position:relative; z-index:1; max-width:720px; text-align:center; color: var(--paper); padding: calc(var(--header-h) + 40px) 24px 100px; }
+.hero-content{ position:relative; z-index:1; max-width:720px; margin-left:auto; margin-right:auto; text-align:center; color: var(--paper); padding: calc(var(--header-h) + 40px) 24px 100px; }
+.hero-verse, .hero-sub{ max-width:100%; margin-left:auto; margin-right:auto; }
+.hero-content h1{ max-width:100%; }
 .hero-verse{
   font-family: var(--font-display); font-weight:500; font-size: clamp(1.3rem,1rem + 1.5vw,1.9rem);
   line-height:1.75; margin:0 0 0.3em; color: var(--paper); text-shadow: 0 2px 18px rgba(0,0,0,0.55), 0 1px 3px rgba(0,0,0,0.4);
@@ -470,62 +479,4 @@ a, button, .burger, .faq-item summary{
    フォーカス時に自動ズームしてしまうため念のため明示 ---- */
 .form-field input, .form-field textarea{
   font-size: max(1rem, 16px);
-}
-/* ==========================================================
-   🔧 横スクロール完全修正パッチ v2
-   ========================================================== */
-
-/* ① html/bodyレベルで横はみ出しを完全封鎖 */
-html {
-  overflow-x: hidden;
-  max-width: 100%;
-}
-body {
-  overflow-x: hidden;
-  max-width: 100%;
-  width: 100%;
-}
-
-/* ② Grid/Flexの子要素のmin-width問題を解消 */
-.pastor-grid > *,
-.welcome-grid > *,
-.schedule-grid > *,
-.cs-grid > *,
-.access-grid > *,
-.co-grid > *,
-.facility-grid > *,
-.flow > *,
-.faq-list > *,
-.regular-list li,
-.upcoming-list li,
-.access-routes li,
-.flow-card,
-.co-card,
-.ig-grid > * {
-  min-width: 0;
-}
-
-/* ③ wrapコンテナが画面幅を超えないよう明示 */
-.wrap {
-  width: 100%;
-  max-width: 1160px;
-  box-sizing: border-box;
-}
-
-/* ④ 施設写真・教会学校写真・Instagramグリッドの
-   横幅が親要素を超えないよう明示 */
-img {
-  max-width: 100%;
-  height: auto;
-}
-
-/* ⑤ iframeも同様に制御（地図の埋め込み） */
-iframe {
-  max-width: 100%;
-}
-
-/* ⑥ フッターが左半分しか表示されない問題を修正 */
-.footer {
-  width: 100%;
-  box-sizing: border-box;
 }
