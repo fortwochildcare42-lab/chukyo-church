@@ -471,3 +471,61 @@ a, button, .burger, .faq-item summary{
 .form-field input, .form-field textarea{
   font-size: max(1rem, 16px);
 }
+/* ==========================================================
+   🔧 横スクロール完全修正パッチ v2
+   ========================================================== */
+
+/* ① html/bodyレベルで横はみ出しを完全封鎖 */
+html {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+  width: 100%;
+}
+
+/* ② Grid/Flexの子要素のmin-width問題を解消 */
+.pastor-grid > *,
+.welcome-grid > *,
+.schedule-grid > *,
+.cs-grid > *,
+.access-grid > *,
+.co-grid > *,
+.facility-grid > *,
+.flow > *,
+.faq-list > *,
+.regular-list li,
+.upcoming-list li,
+.access-routes li,
+.flow-card,
+.co-card,
+.ig-grid > * {
+  min-width: 0;
+}
+
+/* ③ wrapコンテナが画面幅を超えないよう明示 */
+.wrap {
+  width: 100%;
+  max-width: 1160px;
+  box-sizing: border-box;
+}
+
+/* ④ 施設写真・教会学校写真・Instagramグリッドの
+   横幅が親要素を超えないよう明示 */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ⑤ iframeも同様に制御（地図の埋め込み） */
+iframe {
+  max-width: 100%;
+}
+
+/* ⑥ フッターが左半分しか表示されない問題を修正 */
+.footer {
+  width: 100%;
+  box-sizing: border-box;
+}
